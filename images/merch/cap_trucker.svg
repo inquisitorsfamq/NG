@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="capFront" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </radialGradient>
+    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="30%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <pattern id="meshNet" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="2.5" fill="#1e293b"/>
+      <rect width="10" height="10" fill="none" stroke="#0f172a" stroke-width="0.5"/>
+    </pattern>
+    <filter id="capShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="25" stdDeviation="25" flood-color="#0abab5" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#capShadow)">
+    <!-- Back Mesh Panels -->
+    <path d="M 120 280 C 130 140 470 140 480 280 Z" fill="url(#meshNet)" stroke="#0f172a" stroke-width="2"/>
+
+    <!-- Front Crown Panels (Foam Front) -->
+    <path d="M 150 280 C 160 150 440 150 450 280 C 400 295 200 295 150 280 Z" fill="url(#capFront)" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- Top Button -->
+    <ellipse cx="300" cy="155" rx="14" ry="9" fill="#0f172a" stroke="#0abab5" stroke-width="1.5"/>
+
+    <!-- Center Seam -->
+    <path d="M 300 155 Q 300 220 300 288" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+
+    <!-- Visor (Curved Brim) -->
+    <path d="M 120 280 C 100 370 500 370 480 280 C 440 310 160 310 120 280 Z" fill="url(#visorGrad)" stroke="#1e293b" stroke-width="2"/>
+    <!-- Visor Stitching Lines -->
+    <path d="M 140 300 C 180 340 420 340 460 300" fill="none" stroke="#0abab5" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <path d="M 155 315 C 190 355 410 355 445 315" fill="none" stroke="#0abab5" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+    <!-- Authentic Metallic / 3D Inquisitors Front Patch -->
+    <g transform="translate(200, 185)">
+      <rect x="0" y="0" width="200" height="75" rx="10" fill="#070b0e" stroke="#0abab5" stroke-width="2.5"/>
+      <rect x="4" y="4" width="192" height="67" rx="8" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+      
+      <!-- Text -->
+      <text x="100" y="36" font-family="'Orbitron', sans-serif" font-size="18" font-weight="900" fill="#ffffff" letter-spacing="3" text-anchor="middle">INQUISITORS</text>
+      <text x="100" y="55" font-family="'Orbitron', sans-serif" font-size="9" font-weight="800" fill="#0abab5" letter-spacing="4" text-anchor="middle">TRUCKER CAP • NG 5 RP</text>
+    </g>
+
+    <!-- Side Authenticity Silver Round Hologram Sticker -->
+    <ellipse cx="430" cy="305" rx="22" ry="14" fill="#0abab5" stroke="#ffffff" stroke-width="1.5" transform="rotate(-15 430 305)"/>
+    <text x="430" y="309" font-family="'Orbitron', sans-serif" font-size="7" font-weight="900" fill="#020617" text-anchor="middle" transform="rotate(-15 430 305)">AUTHENTIC</text>
+  </g>
+</svg>

@@ -1,0 +1,258 @@
+/* ============================================================
+   INQUISITORS FAMQ 2.0 - ULTIMATE CYBER RP STYLESHEET
+   Project: NG GTA 5 RP
+   Primary Colors:
+     - Tiffany Cyan: #0ABAB5
+     - Tiffany Glow: #14F1D9
+     - Chrome Metallic: #E2E8F0 / #FFFFFF
+     - Deep Titanium: #070B0E / #0C1217
+============================================================ */
+
+:root {
+  --tiffany: #0abab5;
+  --tiffany-light: #14f1d9;
+  --tiffany-dark: #087977;
+  --tiffany-glow: rgba(20, 241, 217, 0.6);
+  --dark-bg: #070b0e;
+  --dark-surface: #0c1217;
+  --glass-bg: rgba(12, 18, 23, 0.78);
+  --glass-border: rgba(10, 186, 181, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #05080a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #0abab5, #087977);
+  border-radius: 4px;
+  border: 1px solid rgba(20, 241, 217, 0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #14f1d9;
+  box-shadow: 0 0 15px #14f1d9;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+/* Reading Progress Bar */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0abab5, #14f1d9, #ffffff, #0abab5);
+  background-size: 200% 100%;
+  animation: shimmerProgress 2s linear infinite;
+  z-index: 100;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 12px #14f1d9;
+}
+
+@keyframes shimmerProgress {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Interactive Particle Canvas */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+/* Cyber Grid Lines */
+.cyber-grid {
+  background-image: 
+    linear-gradient(to right, rgba(10, 186, 181, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 186, 181, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(20, 241, 217, 0.6);
+  box-shadow: 0 10px 40px rgba(10, 186, 181, 0.25), 0 0 20px rgba(20, 241, 217, 0.2);
+}
+
+/* Chrome Logo Glow Animation */
+.chrome-logo-glow {
+  filter: drop-shadow(0 0 15px rgba(20, 241, 217, 0.5)) drop-shadow(0 0 35px rgba(10, 186, 181, 0.3));
+  transition: all 0.4s ease;
+}
+
+.chrome-logo-glow:hover {
+  filter: drop-shadow(0 0 25px rgba(20, 241, 217, 0.9)) drop-shadow(0 0 50px rgba(10, 186, 181, 0.7));
+  transform: scale(1.02);
+}
+
+/* Floating Animation */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 4.5s ease-in-out infinite;
+}
+
+/* Rotating Cyber Ring */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spinSlow 25s linear infinite;
+}
+.animate-spin-reverse {
+  animation: spinSlow 18s linear infinite reverse;
+}
+
+/* Audio Visualizer Wave Bars in Navbar */
+.audio-bar {
+  width: 3px;
+  background: #14f1d9;
+  border-radius: 2px;
+  transition: height 0.15s ease;
+}
+.audio-playing .audio-bar:nth-child(1) { animation: wave 0.8s ease-in-out infinite; }
+.audio-playing .audio-bar:nth-child(2) { animation: wave 1.1s ease-in-out infinite 0.2s; }
+.audio-playing .audio-bar:nth-child(3) { animation: wave 0.9s ease-in-out infinite 0.4s; }
+.audio-playing .audio-bar:nth-child(4) { animation: wave 1.2s ease-in-out infinite 0.1s; }
+
+@keyframes wave {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+/* Glitch Heading Effect */
+.glitch-title {
+  position: relative;
+  display: inline-block;
+}
+.glitch-title::before,
+.glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip: rect(0, 0, 0, 0);
+}
+.glitch-title:hover::before {
+  left: -2px;
+  text-shadow: 2px 0 #14f1d9;
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+.glitch-title:hover::after {
+  left: 2px;
+  text-shadow: -2px 0 #ffffff;
+  animation: glitch-anim-2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(20px, 9999px, 45px, 0); }
+  25% { clip: rect(65px, 9999px, 80px, 0); }
+  50% { clip: rect(10px, 9999px, 35px, 0); }
+  75% { clip: rect(50px, 9999px, 95px, 0); }
+  100% { clip: rect(30px, 9999px, 60px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(50px, 9999px, 85px, 0); }
+  25% { clip: rect(15px, 9999px, 30px, 0); }
+  50% { clip: rect(70px, 9999px, 95px, 0); }
+  75% { clip: rect(25px, 9999px, 55px, 0); }
+  100% { clip: rect(80px, 9999px, 110px, 0); }
+}
+
+/* Custom Checkbox Active State */
+.custom-check:has(input:checked) {
+  border-color: #0abab5 !important;
+  background: rgba(10, 186, 181, 0.12) !important;
+  box-shadow: 0 0 20px rgba(10, 186, 181, 0.25);
+}
+
+/* Badge Pulsing Dot */
+.live-dot {
+  position: relative;
+}
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background: #14f1d9;
+  opacity: 0.6;
+  animation: pingDot 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes pingDot {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Custom Slider Styling for Salary Calculator */
+input[type="range"] {
+  accent-color: #0abab5;
+}
+
+
+/* ============================================================
+   IMAGE 3: CYBER HERO ORBIT SYSTEM & WOW ANIMATIONS
+============================================================ */
+.hero-cyber-grid {
+  background-size: 70px 70px;
+  background-image: 
+    linear-gradient(to right, rgba(10, 186, 181, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 186, 181, 0.09) 1px, transparent 1px);
+}
+
+.satellite-badge {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(14, 20, 27, 0.88);
+  border: 1px solid rgba(20, 241, 217, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.satellite-badge:hover {
+  transform: scale(1.12);
+  border-color: #14f1d9;
+  box-shadow: 0 0 30px rgba(20, 241, 217, 0.9), 0 0 10px #0abab5;
+  background: rgba(10, 186, 181, 0.25);
+}
+
+@keyframes orbitFloat1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes orbitFloat2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(12px) rotate(-2deg); }
+}
+.animate-orbit-1 { animation: orbitFloat1 4s ease-in-out infinite; }
+.animate-orbit-2 { animation: orbitFloat2 5.2s ease-in-out infinite; }
+.animate-orbit-3 { animation: orbitFloat1 6.5s ease-in-out infinite 1s; }
+.animate-orbit-4 { animation: orbitFloat2 4.8s ease-in-out infinite 0.5s; }

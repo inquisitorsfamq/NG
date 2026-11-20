@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="chairLeather" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="70%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <filter id="chairShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="25" stdDeviation="25" flood-color="#0abab5" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#chairShadow)">
+    <!-- Five-star Wheel Base -->
+    <path d="M 300 480 L 220 540 M 300 480 L 380 540 M 300 480 L 190 490 M 300 480 L 410 490 M 300 480 L 300 550" stroke="#0f172a" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="220" cy="540" r="10" fill="#0abab5"/>
+    <circle cx="380" cy="540" r="10" fill="#0abab5"/>
+    <circle cx="190" cy="490" r="10" fill="#0abab5"/>
+    <circle cx="410" cy="490" r="10" fill="#0abab5"/>
+    <circle cx="300" cy="550" r="10" fill="#0abab5"/>
+
+    <!-- Gas Lift Piston -->
+    <rect x="290" y="420" width="20" height="65" fill="#475569" stroke="#0abab5" stroke-width="1"/>
+
+    <!-- Seat Cushion -->
+    <ellipse cx="300" cy="410" rx="100" ry="30" fill="url(#chairLeather)" stroke="#334155" stroke-width="2"/>
+    <ellipse cx="300" cy="410" rx="90" ry="24" fill="none" stroke="#0abab5" stroke-width="1.5" stroke-dasharray="8,4"/>
+
+    <!-- Armrests -->
+    <rect x="180" y="340" width="20" height="70" rx="5" fill="#0f172a" stroke="#0abab5" stroke-width="1"/>
+    <rect x="400" y="340" width="20" height="70" rx="5" fill="#0f172a" stroke="#0abab5" stroke-width="1"/>
+    <ellipse cx="190" cy="340" rx="20" ry="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <ellipse cx="410" cy="340" rx="20" ry="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+    <!-- Backrest Ergonomic Wings -->
+    <path d="M 230 400 L 210 200 Q 210 130 260 110 L 300 100 L 340 110 Q 390 130 390 200 L 370 400 Z" fill="url(#chairLeather)" stroke="#334155" stroke-width="2"/>
+    
+    <!-- Tiffany Accent Stripes on Backrest -->
+    <path d="M 235 380 L 225 210 Q 225 150 265 130" fill="none" stroke="#0abab5" stroke-width="4"/>
+    <path d="M 365 380 L 375 210 Q 375 150 335 130" fill="none" stroke="#0abab5" stroke-width="4"/>
+
+    <!-- Headrest Pillow -->
+    <rect x="260" y="140" width="80" height="45" rx="12" fill="#0f172a" stroke="#0abab5" stroke-width="2"/>
+    <text x="300" y="167" font-family="'Orbitron', sans-serif" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle">INQ</text>
+
+    <!-- Lumbar Pillow -->
+    <rect x="250" y="300" width="100" height="50" rx="10" fill="#070b0e" stroke="#14f1d9" stroke-width="1.5"/>
+    <text x="300" y="325" font-family="'Orbitron', sans-serif" font-size="9" font-weight="900" fill="#0abab5" text-anchor="middle">INQUISITORS</text>
+    <text x="300" y="340" font-family="'Orbitron', sans-serif" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">PRO EDITION</text>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="deskmatBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="70%" stop-color="#070b0e"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <filter id="deskmatGlow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="20" stdDeviation="25" flood-color="#0abab5" flood-opacity="0.4"/>
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#deskmatGlow)" transform="translate(50, 40)">
+    <!-- Desk Mat Base with Rounded Corners -->
+    <rect x="0" y="0" width="600" height="300" rx="20" fill="url(#deskmatBg)" stroke="#0abab5" stroke-width="4"/>
+    
+    <!-- Neon RGB Stitched Border Effect -->
+    <rect x="6" y="6" width="588" height="288" rx="16" fill="none" stroke="#14f1d9" stroke-width="1.5" stroke-dasharray="10,6" opacity="0.8"/>
+
+    <!-- Cyberpunk Grid Lines in background -->
+    <g stroke="#0abab5" stroke-width="0.75" opacity="0.2">
+      <line x1="50" y1="0" x2="50" y2="300"/>
+      <line x1="150" y1="0" x2="150" y2="300"/>
+      <line x1="250" y1="0" x2="250" y2="300"/>
+      <line x1="350" y1="0" x2="350" y2="300"/>
+      <line x1="450" y1="0" x2="450" y2="300"/>
+      <line x1="550" y1="0" x2="550" y2="300"/>
+      
+      <line x1="0" y1="50" x2="600" y2="50"/>
+      <line x1="0" y1="100" x2="600" y2="100"/>
+      <line x1="0" y1="150" x2="600" y2="150"/>
+      <line x1="0" y1="200" x2="600" y2="200"/>
+      <line x1="0" y1="250" x2="600" y2="250"/>
+    </g>
+
+    <!-- Skyline / City Silhouette silhouette -->
+    <path d="M 50 240 L 70 200 L 90 200 L 100 220 L 130 180 L 160 180 L 170 240 L 220 150 L 250 150 L 270 240 L 320 130 L 350 130 L 370 240 L 410 170 L 440 170 L 460 240 L 510 190 L 550 240 Z" 
+          fill="#1e293b" opacity="0.5"/>
+
+    <!-- Central Massive Inquisitors Typography -->
+    <g transform="translate(300, 150)">
+      <circle cx="0" cy="0" r="70" fill="none" stroke="#0abab5" stroke-width="1.5" stroke-dasharray="12,6" opacity="0.4"/>
+      <text x="0" y="8" font-family="'Orbitron', sans-serif" font-size="34" font-weight="900" fill="#ffffff" letter-spacing="6" text-anchor="middle" filter="drop-shadow(0 0 15px rgba(20,241,217,0.9))">INQUISITORS</text>
+      <text x="0" y="38" font-family="'Orbitron', sans-serif" font-size="12" font-weight="800" fill="#0abab5" letter-spacing="8" text-anchor="middle">GAMING DESK MAT • 900x400MM</text>
+    </g>
+
+    <!-- Corner Technical Markings -->
+    <text x="25" y="35" font-family="'Orbitron', monospace" font-size="9" fill="#0abab5" font-weight="bold">COORD // 34.0522° N</text>
+    <text x="575" y="275" font-family="'Orbitron', monospace" font-size="9" fill="#0abab5" font-weight="bold" text-anchor="end">SPEED SURFACE [NG EDITION]</text>
+  </g>
+</svg>

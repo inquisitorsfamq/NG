@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="carGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a1926" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#070b0e" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#030608" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="headlightGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#14f1d9" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0abab5" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#14f1d9" stop-opacity="0.8"/>
+    </linearGradient>
+    <radialGradient id="mistGlow" cx="50%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#0abab5" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#030608" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#mistGlow)"/>
+
+  <!-- Supercar Silhouette from front-low angle -->
+  <g transform="translate(100, 100)">
+    <!-- Roof & Windshield -->
+    <path d="M 360 80 Q 500 40 640 80 L 740 160 Q 500 130 260 160 Z" fill="#04070a" stroke="#152636" stroke-width="1.5"/>
+    <path d="M 370 85 Q 500 50 630 85 L 720 155 Q 500 135 280 155 Z" fill="#081017" opacity="0.7"/>
+
+    <!-- Hood & Fenders -->
+    <path d="M 120 220 Q 260 150 500 145 Q 740 150 880 220 L 920 280 Q 500 290 80 280 Z" fill="url(#carGrad)" stroke="#1a2d3f" stroke-width="2"/>
+
+    <!-- Hood Crease Lines with Tiffany Edge Reflection -->
+    <path d="M 340 160 L 320 240 Q 500 250 680 240 L 660 160" fill="none" stroke="#0abab5" stroke-width="1.5" opacity="0.4"/>
+    <path d="M 420 155 L 400 245" fill="none" stroke="#14f1d9" stroke-width="1" opacity="0.6"/>
+    <path d="M 580 155 L 600 245" fill="none" stroke="#14f1d9" stroke-width="1" opacity="0.6"/>
+
+    <!-- Side Mirrors -->
+    <polygon points="220,150 255,145 260,165 210,165" fill="#0a141e" stroke="#14f1d9" stroke-width="1"/>
+    <polygon points="780,150 745,145 740,165 790,165" fill="#0a141e" stroke="#14f1d9" stroke-width="1"/>
+
+    <!-- Front Splitter & Low Air Intakes -->
+    <path d="M 160 280 L 840 280 L 860 300 L 140 300 Z" fill="#020406" stroke="#0abab5" stroke-width="1"/>
+
+    <!-- Sharp Cyber Headlight DRL Strips -->
+    <path d="M 200 220 Q 280 215 320 235 L 300 242 Q 260 228 190 232 Z" fill="#14f1d9" filter="drop-shadow(0 0 10px #14f1d9)"/>
+    <path d="M 800 220 Q 720 215 680 235 L 700 242 Q 740 228 810 232 Z" fill="#14f1d9" filter="drop-shadow(0 0 10px #14f1d9)"/>
+
+    <!-- Neon Underglow -->
+    <ellipse cx="500" cy="295" rx="360" ry="15" fill="#0abab5" opacity="0.35" filter="blur(10px)"/>
+  </g>
+</svg>
