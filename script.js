@@ -18,12 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
 function initScrollProgress() {
   const bar = document.getElementById('scrollProgress');
   if (!bar) return;
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    bar.style.width = scrolled + '%';
-  });
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        bar.style.width = scrolled + '%';
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 }
 
 // --- Dynamic Particle Background Mesh ---
@@ -34,23 +41,38 @@ function initParticleCanvas() {
 
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
+  let isMobile = width < 768;
+  let isTabActive = true;
+  let animFrameId = null;
 
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+  document.addEventListener('visibilitychange', () => {
+    isTabActive = !document.hidden;
+    if (isTabActive && !animFrameId) {
+      animate();
+    }
   });
+
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      isMobile = width < 768;
+    }, 150);
+  }, { passive: true });
 
   const mouse = { x: null, y: null, radius: 140 };
   window.addEventListener('mousemove', (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-  });
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
   window.addEventListener('mouseout', () => {
     mouse.x = null;
     mouse.y = null;
-  });
+  }, { passive: true });
 
-  const particleCount = Math.min(Math.floor(width / 24), 60);
+  const particleCount = isMobile ? 18 : Math.min(Math.floor(width / 26), 50);
   const particles = [];
 
   class Particle {
@@ -58,8 +80,8 @@ function initParticleCanvas() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
       this.size = Math.random() * 2 + 1;
-      this.speedX = (Math.random() - 0.5) * 0.6;
-      this.speedY = (Math.random() - 0.5) * 0.6;
+      this.speedX = (Math.random() - 0.5) * (isMobile ? 0.35 : 0.6);
+      this.speedY = (Math.random() - 0.5) * (isMobile ? 0.35 : 0.6);
       this.alpha = Math.random() * 0.5 + 0.3;
     }
     update() {
@@ -69,7 +91,7 @@ function initParticleCanvas() {
       if (this.x < 0 || this.x > width) this.speedX = -this.speedX;
       if (this.y < 0 || this.y > height) this.speedY = -this.speedY;
 
-      if (mouse.x !== null) {
+      if (!isMobile && mouse.x !== null) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -82,7 +104,7 @@ function initParticleCanvas() {
     }
     draw() {
       ctx.fillStyle = `rgba(20, 241, 217, ${this.alpha})`;
-      ctx.shadowBlur = 6;
+      ctx.shadowBlur = isMobile ? 2 : 6;
       ctx.shadowColor = '#0abab5';
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -95,8 +117,14 @@ function initParticleCanvas() {
   }
 
   function animate() {
+    if (!isTabActive) {
+      animFrameId = null;
+      return;
+    }
+
     ctx.clearRect(0, 0, width, height);
 
+    const maxDist = isMobile ? 70 : 110;
     for (let i = 0; i < particles.length; i++) {
       particles[i].update();
       particles[i].draw();
@@ -106,8 +134,8 @@ function initParticleCanvas() {
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 110) {
-          const lineAlpha = (1 - dist / 110) * 0.2;
+        if (dist < maxDist) {
+          const lineAlpha = (1 - dist / maxDist) * (isMobile ? 0.12 : 0.2);
           ctx.strokeStyle = `rgba(10, 186, 181, ${lineAlpha})`;
           ctx.lineWidth = 0.8;
           ctx.beginPath();
@@ -117,7 +145,7 @@ function initParticleCanvas() {
         }
       }
     }
-    requestAnimationFrame(animate);
+    animFrameId = requestAnimationFrame(animate);
   }
   animate();
 }
@@ -216,15 +244,22 @@ function playSfx(type = 'click') {
 function initHeaderScroll() {
   const header = document.getElementById('mainHeader');
   if (!header) return;
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header.classList.add('bg-darkbg-900/95', 'shadow-[0_10px_35px_rgba(0,0,0,0.6)]', 'border-tiffany/40');
-      header.classList.remove('bg-darkbg-900/80', 'border-tiffany/20');
-    } else {
-      header.classList.remove('bg-darkbg-900/95', 'shadow-[0_10px_35px_rgba(0,0,0,0.6)]', 'border-tiffany/40');
-      header.classList.add('bg-darkbg-900/80', 'border-tiffany/20');
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 40) {
+          header.classList.add('bg-darkbg-900/95', 'shadow-[0_10px_35px_rgba(0,0,0,0.6)]', 'border-tiffany/40');
+          header.classList.remove('bg-darkbg-900/80', 'border-tiffany/20');
+        } else {
+          header.classList.remove('bg-darkbg-900/95', 'shadow-[0_10px_35px_rgba(0,0,0,0.6)]', 'border-tiffany/40');
+          header.classList.add('bg-darkbg-900/80', 'border-tiffany/20');
+        }
+        ticking = false;
+      });
+      ticking = true;
     }
-  });
+  }, { passive: true });
 }
 
 // --- Mobile Navigation Menu ---
@@ -504,11 +539,11 @@ function submitNotification(e) {
 
 function copyPromoCode() {
   playSfx('click');
-  const code = "INQUISITORS300";
+  const code = "INQUISITORS350";
   if (navigator.clipboard) {
     navigator.clipboard.writeText(code);
   }
-  showToast('🏷 Промокод INQUISITORS300 скопійовано! (-15%)');
+  showToast('🏷 Промокод INQUISITORS350 скопійовано! (-15%)');
 }
 
 // --- Close modals on backdrop or ESC ---

@@ -280,3 +280,69 @@ input, textarea, [contenteditable="true"], .allow-select {
   -ms-user-select: text !important;
   user-select: text !important;
 }
+
+/* ============================================================
+   MOBILE & PC PERFORMANCE OPTIMIZATIONS
+============================================================ */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Eliminate 300ms mobile touch delay */
+button, a, input, select, textarea, .tab-btn, .satellite-badge, .mod-card, .prod-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hardware GPU Acceleration for Smooth 60/120 FPS */
+.chrome-logo-glow,
+.satellite-badge,
+.floating-item,
+.bento-card,
+.glass-panel,
+.animate-spin-slow,
+.animate-spin-reverse,
+.animate-orbit-1,
+.animate-orbit-2,
+.animate-orbit-3,
+.animate-orbit-4 {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Image content-visibility for lazy layout compute */
+img {
+  content-visibility: auto;
+}
+
+/* Mobile Smooth Modal & Drawer Scrolling */
+.overflow-y-auto,
+#applyModal > div,
+#orderModal > div,
+#notifyModal > div {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Respect user's device battery / motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
