@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
@@ -63,6 +64,78 @@ const server = http.createServer((req, res) => {
     req.on('close', () => {
       activeClients.delete(res);
       broadcastCount();
+    });
+    return;
+  }
+
+  // Gunpack Order API -> Discord Webhook
+  if (reqUrl.pathname === '/api/order-gunpack' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const orderData = JSON.parse(body || '{}');
+        const webhookUrl = 'https://discord.com/api/webhooks/1573431911143973046/9KKMZgEM6qfliqETq-twbP013cxHoGZmYqatEuef26PXwiVZji01D9n_z7RDWwHXi_HI';
+        
+        const discordUser = (orderData.discord || '').trim();
+        const paymentMethod = (orderData.paymentMethod || '').trim() || 'Банківська карта';
+        const comment = (orderData.comment || '').trim() || 'Не вказано';
+        const price = orderData.price || '199';
+        const product = orderData.product || 'Pink Cute Gunpack';
+
+        const discordPayload = JSON.stringify({
+          username: 'Inquisitors Famq Store',
+          avatar_url: 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png',
+          embeds: [{
+            title: `🛒 НОВЕ ЗАМОВЛЕННЯ: ${product} (${price} ₴)`,
+            description: `Користувач оформив замовлення на платний ганпак через офіційний сайт **Inquisitors Famq**!`,
+            color: 15474345, // #EC48A9 Pink
+            fields: [
+              { name: '👤 Discord замовника', value: discordUser.startsWith('@') ? discordUser : '@' + discordUser, inline: true },
+              { name: '💳 Спосіб оплати', value: paymentMethod, inline: true },
+              { name: '💰 Сума до сплати', value: `${price} ₴ (ГРН)`, inline: true },
+              { name: '📦 Товар', value: `${product} (420 МБ, кастомні моделі + звуки)`, inline: false },
+              { name: '💬 Коментар / Контакт', value: comment, inline: false },
+              { name: '🕒 Час замовлення', value: new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }), inline: true },
+              { name: '🌐 Джерело', value: 'Розділ Моди (index.html)', inline: true }
+            ],
+            footer: { text: `Inquisitors Famq • Gunpack Store Bot • ${price} UAH` },
+            timestamp: new Date().toISOString()
+          }]
+        });
+
+        const discordReq = https.request(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(discordPayload)
+          }
+        }, (dRes) => {
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+          res.end(JSON.stringify({ success: true, status: dRes.statusCode }));
+        });
+
+        discordReq.on('error', (err) => {
+          console.error('Discord Webhook Error:', err);
+          res.writeHead(500, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+          res.end(JSON.stringify({ success: false, error: err.message }));
+        });
+
+        discordReq.write(discordPayload);
+        discordReq.end();
+      } catch (e) {
+        res.writeHead(400, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: false, error: 'Invalid payload' }));
+      }
     });
     return;
   }

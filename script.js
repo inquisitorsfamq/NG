@@ -1,6 +1,6 @@
 /* ============================================================
    INQUISITORS FAMQ 2.0 - SCRIPT ENGINE WITH MULTI-TAB SYSTEM
-   Project: NG GTA 5 RP
+   Project: GTA 5 RP
 ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -409,11 +409,11 @@ function submitApplication(e) {
         { name: "🎮 Ігровий Nickname", value: `\`${name || 'Не вказано'}\``, inline: true },
         { name: "💬 Discord тег", value: `**${discord || 'Не вказано'}**`, inline: true },
         { name: "🎂 Вік", value: age || "Не вказано", inline: true },
-        { name: "🆔 Static ID (NG RP)", value: sid ? `#${sid}` : "Не вказано", inline: true },
+        { name: "🆔 Static ID", value: sid ? `#${sid}` : "Не вказано", inline: true },
         { name: "🎯 Обраний напрямок", value: path || "Не визначився", inline: true },
         { name: "📝 Про себе / Досвід", value: about || "Не вказано", inline: false }
       ],
-      footer: { text: "Inquisitors Recruitment System • NG GTA 5 RP" },
+      footer: { text: "Inquisitors Recruitment System" },
       timestamp: new Date().toISOString()
     };
 
@@ -481,7 +481,7 @@ function submitNotification(e) {
         { name: "📏 Розмір", value: size || "Будь-який", inline: true },
         { name: "💬 Контакт", value: contact, inline: false }
       ],
-      footer: { text: "Inquisitors Merch Notify • NG GTA 5 RP" },
+      footer: { text: "Inquisitors Merch Notify" },
       timestamp: new Date().toISOString()
     };
 
@@ -758,3 +758,303 @@ function initDiscordLiveSync() {
   // Опитуємо кожні 15 секунд для живої синхронізації
   setInterval(fetchDiscordMemberCount, 15000);
 }
+
+// --- Mods & Redux Filter & Modal Engine ---
+function filterMods(category, btnElement) {
+  playSfx('click');
+  document.querySelectorAll('.mod-filter-btn').forEach(btn => {
+    btn.classList.remove('active', 'bg-tiffany', 'text-darkbg-950', 'shadow-lg', 'shadow-tiffany/20');
+    btn.classList.add('bg-darkbg-800', 'text-slate-300', 'border-white/10');
+  });
+
+  if (btnElement) {
+    btnElement.classList.add('active', 'bg-tiffany', 'text-darkbg-950', 'shadow-lg', 'shadow-tiffany/20');
+    btnElement.classList.remove('bg-darkbg-800', 'text-slate-300');
+  }
+
+  const cards = document.querySelectorAll('.mod-card');
+  cards.forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+function openModModal(title, size, pass, imgSrc, desc, downloadLink, mirror2Link, screenshots = [], price = null) {
+  playSfx('click');
+  const modal = document.getElementById('modDetailModal');
+  if (!modal) return;
+  document.getElementById('modalModTitle').textContent = title || 'GTA 5 Mod';
+  document.getElementById('modalModSize').textContent = size || '400 МБ';
+  document.getElementById('modalBtnSize').textContent = size || '400 МБ';
+  document.getElementById('modalModPassword').textContent = pass || 'gta5redux.ru';
+  if (imgSrc) {
+    document.getElementById('modalModImg').src = imgSrc;
+  }
+  const mirror1 = document.getElementById('modalDownloadMirror1');
+  const mirror2 = document.getElementById('modalDownloadMirror2');
+
+  // Handle Paid Mods (e.g. Pink Cute Gunpack 199 UAH)
+  if (price || (downloadLink && downloadLink.startsWith('order:'))) {
+    const finalPrice = price || 199;
+    if (mirror1) {
+      mirror1.removeAttribute('href');
+      mirror1.onclick = () => {
+        closeModModal();
+        openGunpackOrderModal(title.replace('[PREMIUM]', '').trim(), finalPrice, imgSrc);
+      };
+      mirror1.className = 'w-full py-4 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-pink-500 text-white font-orbitron font-black text-sm uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(236,72,153,0.5)] hover:scale-[1.02] active:scale-95 transition-all cursor-pointer';
+      mirror1.innerHTML = `<i class="fa-solid fa-cart-shopping text-base"></i> <span>Купити ганпак — ${finalPrice} ₴</span>`;
+    }
+    if (mirror2) {
+      mirror2.classList.add('hidden');
+    }
+  } else {
+    if (mirror1) {
+      mirror1.href = downloadLink || '#';
+      mirror1.target = '_blank';
+      mirror1.onclick = null;
+      mirror1.className = 'w-full py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white font-orbitron font-black text-sm uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:scale-[1.02] active:scale-95 transition-all';
+      mirror1.innerHTML = `<i class="fa-solid fa-download text-base"></i> <span>Скачати з дзеркала #1 (<span id="modalBtnSize">${size || '400 МБ'}</span>)</span>`;
+    }
+    if (mirror2) {
+      mirror2.classList.remove('hidden');
+      mirror2.href = mirror2Link || downloadLink || '#';
+    }
+  }
+
+  const galleryBox = document.getElementById('modalGallery');
+  if (galleryBox) {
+    if (screenshots && screenshots.length > 0) {
+      galleryBox.classList.remove('hidden');
+      galleryBox.innerHTML = screenshots.map(src => `
+        <img src="${src}" onclick="document.getElementById('modalModImg').src='${src}'; playSfx('click');" class="w-14 h-10 rounded-lg object-cover border border-white/20 hover:border-purple-400 cursor-pointer transition-all hover:scale-105 shrink-0" title="Переглянути скріншот">
+      `).join('');
+    } else {
+      galleryBox.classList.add('hidden');
+      galleryBox.innerHTML = '';
+    }
+  }
+
+  const guide = document.getElementById('installGuideBox');
+  const chevron = document.getElementById('installGuideChevron');
+  if (guide) guide.classList.remove('hidden');
+  if (chevron) chevron.classList.remove('rotate-180');
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+
+  if (typeof currentLang !== 'undefined' && currentLang === 'ru' && typeof translateDOM === 'function') {
+    translateDOM('ru');
+  }
+}
+
+function closeModModal() {
+  playSfx('click');
+  const modal = document.getElementById('modDetailModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+
+function toggleInstallGuide() {
+  playSfx('click');
+  const box = document.getElementById('installGuideBox');
+  const chevron = document.getElementById('installGuideChevron');
+  if (box) {
+    box.classList.toggle('hidden');
+    if (chevron) {
+      chevron.classList.toggle('rotate-180');
+    }
+  }
+}
+
+// ==========================================
+// GUNPACK ORDER MODAL & DISCORD WEBHOOK LOGIC
+// ==========================================
+let currentGunpackOrder = {
+  product: 'Pink Cute Gunpack',
+  price: 199,
+  img: 'images/mods/gunpack_pink.jpg'
+};
+
+function openGunpackOrderModal(productName = 'Pink Cute Gunpack', price = 199, imgUrl = 'images/mods/gunpack_pink.jpg') {
+  playSfx('click');
+  currentGunpackOrder = {
+    product: productName,
+    price: price,
+    img: imgUrl
+  };
+
+  const modal = document.getElementById('gunpackOrderModal');
+  if (!modal) return;
+
+  const formState = document.getElementById('orderFormState');
+  const successState = document.getElementById('orderSuccessState');
+  if (formState) formState.classList.remove('hidden');
+  if (successState) successState.classList.add('hidden');
+
+  const titleEl = document.getElementById('orderModalTitle');
+  if (titleEl) titleEl.textContent = productName;
+
+  const imgEl = document.getElementById('orderModalImg');
+  if (imgEl && imgUrl) imgEl.src = imgUrl;
+
+  const inputDiscord = document.getElementById('orderDiscordInput');
+  if (inputDiscord) {
+    inputDiscord.value = '';
+    inputDiscord.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/50');
+  }
+
+  const commentInput = document.getElementById('orderCommentInput');
+  if (commentInput) commentInput.value = '';
+
+  const submitBtn = document.getElementById('submitOrderBtn');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> <span id="submitOrderBtnText">Оформити замовлення • ${price} ₴</span>`;
+  }
+
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+
+  if (typeof currentLang !== 'undefined' && currentLang === 'ru' && typeof translateDOM === 'function') {
+    translateDOM('ru');
+  }
+
+  setTimeout(() => {
+    if (inputDiscord) inputDiscord.focus();
+  }, 100);
+}
+
+function closeGunpackOrderModal() {
+  playSfx('click');
+  const modal = document.getElementById('gunpackOrderModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+
+async function submitGunpackOrder() {
+  const discordInput = document.getElementById('orderDiscordInput');
+  const discordVal = discordInput ? discordInput.value.trim() : '';
+
+  if (!discordVal) {
+    if (discordInput) {
+      discordInput.classList.add('border-rose-500', 'ring-2', 'ring-rose-500/50');
+      discordInput.focus();
+    }
+    if (typeof showToast === 'function') {
+      showToast('⚠️ Будь ласка, вкажіть ваш Discord для зв\'язку!');
+    }
+    return;
+  }
+
+  const selectedPaymentEl = document.querySelector('input[name="paymentMethod"]:checked');
+  const paymentMethod = selectedPaymentEl ? selectedPaymentEl.value : 'Банківська карта (Монобанк / Приват24 / Visa / Mastercard)';
+
+  const commentInput = document.getElementById('orderCommentInput');
+  const comment = commentInput ? commentInput.value.trim() : '';
+
+  const submitBtn = document.getElementById('submitOrderBtn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Відправка в Discord...</span>`;
+  }
+
+  const orderPayload = {
+    discord: discordVal.startsWith('@') ? discordVal : '@' + discordVal,
+    paymentMethod: paymentMethod,
+    comment: comment || 'Не вказано',
+    price: currentGunpackOrder.price || 199,
+    product: currentGunpackOrder.product || 'Pink Cute Gunpack'
+  };
+
+  const discordWebhookUrl = 'https://discord.com/api/webhooks/1573431911143973046/9KKMZgEM6qfliqETq-twbP013cxHoGZmYqatEuef26PXwiVZji01D9n_z7RDWwHXi_HI';
+
+  const directDiscordPayload = {
+    username: 'Inquisitors Famq Store',
+    avatar_url: 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png',
+    embeds: [{
+      title: `🛒 НОВЕ ЗАМОВЛЕННЯ: ${orderPayload.product} (${orderPayload.price} ₴)`,
+      description: `Користувач оформив заявку на придбання кастомного ганпака на офіційному сайті **Inquisitors Famq**!`,
+      color: 15474345, // #EC48A9 Pink
+      fields: [
+        { name: '👤 Discord замовника', value: orderPayload.discord, inline: true },
+        { name: '💳 Спосіб оплати', value: orderPayload.paymentMethod, inline: true },
+        { name: '💰 Сума до сплати', value: `${orderPayload.price} ₴ (ГРН)`, inline: true },
+        { name: '📦 Товар', value: `${orderPayload.product} (420 МБ, кастомні моделі + звуки)`, inline: false },
+        { name: '💬 Коментар / Контакт', value: orderPayload.comment, inline: false },
+        { name: '🕒 Час замовлення', value: new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }), inline: true },
+        { name: '🌐 Джерело', value: 'Розділ Моди (Pink Cute Gunpack)', inline: true }
+      ],
+      footer: { text: `Inquisitors Famq Store Bot • ${orderPayload.price} UAH` },
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  let sent = false;
+
+  // Attempt 1: Node backend proxy (/api/order-gunpack)
+  try {
+    const res = await fetch('/api/order-gunpack', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderPayload)
+    });
+    if (res.ok) {
+      sent = true;
+    }
+  } catch (err) {
+    console.warn('Backend proxy unavailable, trying direct Webhook...', err);
+  }
+
+  // Attempt 2: Direct browser POST to Discord Webhook
+  if (!sent) {
+    try {
+      const res = await fetch(discordWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(directDiscordPayload)
+      });
+      if (res.ok || res.status === 204) {
+        sent = true;
+      }
+    } catch (err) {
+      console.error('Direct Discord Webhook error:', err);
+    }
+  }
+
+  // Success UI Transition
+  playSfx('success');
+
+  const formState = document.getElementById('orderFormState');
+  const successState = document.getElementById('orderSuccessState');
+  if (formState) formState.classList.add('hidden');
+  if (successState) successState.classList.remove('hidden');
+
+  const successUserEl = document.getElementById('successUserDiscord');
+  if (successUserEl) successUserEl.textContent = orderPayload.discord;
+
+  const successPayEl = document.getElementById('successPaymentMethod');
+  if (successPayEl) successPayEl.textContent = orderPayload.paymentMethod.split('(')[0].trim();
+
+  if (typeof showToast === 'function') {
+    showToast('🎉 Замовлення успішно надіслано в Discord!');
+  }
+}
+
+// Закриття модалок по кліку за межами вікна
+window.addEventListener('click', (e) => {
+  const modModal = document.getElementById('modDetailModal');
+  if (e.target === modModal) {
+    closeModModal();
+  }
+  const orderModal = document.getElementById('gunpackOrderModal');
+  if (e.target === orderModal) {
+    closeGunpackOrderModal();
+  }
+});

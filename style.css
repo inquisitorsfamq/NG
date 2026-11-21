@@ -1,6 +1,6 @@
 /* ============================================================
    INQUISITORS FAMQ 2.0 - ULTIMATE CYBER RP STYLESHEET
-   Project: NG GTA 5 RP
+   Project: Prime RP
    Primary Colors:
      - Tiffany Cyan: #0ABAB5
      - Tiffany Glow: #14F1D9
@@ -256,3 +256,27 @@ input[type="range"] {
 .animate-orbit-2 { animation: orbitFloat2 5.2s ease-in-out infinite; }
 .animate-orbit-3 { animation: orbitFloat1 6.5s ease-in-out infinite 1s; }
 .animate-orbit-4 { animation: orbitFloat2 4.8s ease-in-out infinite 0.5s; }
+
+/* ============================================================
+   ANTI-COPY & CONTENT PROTECTION
+============================================================ */
+html, body {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+img, svg, video {
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+input, textarea, [contenteditable="true"], .allow-select {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}

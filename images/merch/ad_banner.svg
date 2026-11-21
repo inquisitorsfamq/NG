@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cyberSite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0abab5"/>
+      <stop offset="50%" stop-color="#14f1d9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="siteGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="15" stdDeviation="20" flood-color="#0abab5" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient background glow -->
+  <circle cx="300" cy="300" r="180" fill="#0abab5" opacity="0.12"/>
+
+  <!-- Browser Window Frame -->
+  <g filter="url(#siteGlow)">
+    <rect x="70" y="100" width="460" height="400" rx="28" fill="#070e17" stroke="#0abab5" stroke-width="2.5"/>
+    
+    <!-- Browser Top Bar -->
+    <path d="M70 128 C70 112 82 100 98 100 L502 100 C518 100 530 112 530 128 L530 155 L70 155 Z" fill="#0f1b29"/>
+    
+    <!-- Window Control Dots -->
+    <circle cx="105" cy="128" r="7" fill="#ef4444"/>
+    <circle cx="128" cy="128" r="7" fill="#eab308"/>
+    <circle cx="151" cy="128" r="7" fill="#22c55e"/>
+
+    <!-- URL Bar -->
+    <rect x="180" y="115" width="280" height="26" rx="8" fill="#070e17" stroke="#1e293b" stroke-width="1"/>
+    <text x="320" y="132" font-family="'Orbitron', monospace" font-size="10" font-weight="700" fill="#0abab5" text-anchor="middle">inquisitors.famq/partner</text>
+
+    <!-- Simulated Website Content Header -->
+    <rect x="100" y="180" width="160" height="18" rx="6" fill="#14f1d9" opacity="0.4"/>
+    <rect x="420" y="180" width="80" height="18" rx="6" fill="#334155"/>
+
+    <!-- Prominent Ad Banner on Site -->
+    <rect x="100" y="220" width="400" height="170" rx="18" fill="url(#cyberSite)"/>
+    
+    <!-- Banner Inner Design -->
+    <rect x="110" y="230" width="380" height="150" rx="14" fill="#03080e" opacity="0.88"/>
+    <text x="300" y="280" font-family="'Orbitron', sans-serif" font-size="22" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1.5">ВАШ БАНЕР ТУТ</text>
+    <text x="300" y="315" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#14f1d9" text-anchor="middle">Клікабельне посилання • 5000+ переглядів/міс</text>
+    
+    <rect x="210" y="335" width="180" height="30" rx="8" fill="#14f1d9"/>
+    <text x="300" y="355" font-family="'Orbitron', sans-serif" font-size="10" font-weight="900" fill="#020617" text-anchor="middle">ПЕРЕЙТИ ЗАРАЗ ➔</text>
+
+    <!-- Lower simulated rows -->
+    <rect x="100" y="415" width="180" height="45" rx="12" fill="#111d2e"/>
+    <rect x="300" y="415" width="200" height="45" rx="12" fill="#111d2e"/>
+    <text x="190" y="442" font-family="'Orbitron', sans-serif" font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">STAT: 100% CTR</text>
+    <text x="400" y="442" font-family="'Orbitron', sans-serif" font-size="11" font-weight="700" fill="#0abab5" text-anchor="middle">30 ДНІВ РОТАЦІЇ</text>
+  </g>
+</svg>
