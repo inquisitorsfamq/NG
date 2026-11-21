@@ -727,7 +727,7 @@ async function fetchDiscordMemberCount() {
 }
 
 function updateDiscordUI(count, onlineCount) {
-  const goal = 300;
+  const goal = 350;
   const percent = Math.min(100, Math.round((count / goal) * 100));
 
   // Оновлюємо лічильники на сторінці
